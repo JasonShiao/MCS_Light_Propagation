@@ -1,0 +1,4 @@
+1. When we reduce n for rand()%n/n, 
+the std of number of data between 20 intervals will decrease!
+
+2. 

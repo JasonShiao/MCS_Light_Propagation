@@ -1,0 +1,41 @@
+# depslib dependency file v1.0
+1490408402 source:c:\users\user\desktop\project\mcs_lightpropagation\main.cpp
+	<iostream>
+	<ctime>
+	<stdlib.h>
+	"Rand.h"
+	"AbsorbOnly.h"
+
+1490389999 c:\users\user\desktop\project\mcs_lightpropagation\testrand.h
+	<iostream>
+	<ctime>
+	<stdlib.h>
+	<fstream>
+	<cmath>
+
+1490390529 source:c:\users\user\desktop\project\mcs_lightpropagation\testrand.cpp
+	"TestRand.h"
+
+1490391081 c:\users\user\desktop\project\mcs_lightpropagation\rand.h
+	<iostream>
+	<ctime>
+	<stdlib.h>
+	<fstream>
+	<cmath>
+
+1490401373 source:c:\users\user\desktop\project\mcs_lightpropagation\rand.cpp
+	"Rand.h"
+
+1490412726 source:c:\users\user\desktop\project\mcs_lightpropagation\absorbonly.cpp
+	"AbsorbOnly.h"
+
+1490408562 c:\users\user\desktop\project\mcs_lightpropagation\absorbonly.h
+	<vector>
+	"Rand.h"
+	"MediaStructure.h"
+
+1490412061 c:\users\user\desktop\project\mcs_lightpropagation\mediastructure.h
+
+1490407718 source:c:\users\user\desktop\project\mcs_lightpropagation\mediastructure.cpp
+	"MediaStructure.h"
+

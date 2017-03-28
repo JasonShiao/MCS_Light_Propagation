@@ -8,7 +8,9 @@ double genRand(){
 
 bool testRand(){
 
-   srand(time(NULL));
+   default_random_engine generator;
+   uniform_real_distribution<double> distribution(0.0, 1.0);
+
    const int NumTest = 10000;
 
    ofstream classify, rawdata;
@@ -17,7 +19,7 @@ bool testRand(){
    double RandArray[NumTest];
 
    for(int i=0;i<10000;++i) {
-      RandArray[i] = genRand();
+      RandArray[i] = distribution(generator);
    }
 
    int interval[20]={0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0};

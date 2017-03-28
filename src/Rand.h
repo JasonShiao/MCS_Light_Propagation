@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <fstream>
 #include <cmath>
+#include <random>
 
 double genRand( );
 bool testRand( );

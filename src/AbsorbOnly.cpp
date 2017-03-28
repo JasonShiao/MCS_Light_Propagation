@@ -7,7 +7,16 @@ bool absorb_only(){
    ofstream Distr_Out;
    Distr_Out.open("Data/Distr_Out.csv");
 
-   Media SimpleStruct;
+   // Seed with generator
+   mt19937 generator(time(0));
+   uniform_real_distribution<double> distribution(0.0, 1.0);
+   // Direction of Z-axis is Downward
+   const int OBSERVE_BOUND_LEFT = -9999; // cm
+   const int OBSERVE_BOUND_RIGHT = 9999; // cm
+   const int OBSERVE_BOUND_TOP = -9999; // cm
+   const int OBSERVE_BOUND_BOTTOM = 9999; // cm
+
+   Media SimpleStruct(10, 0, OBSERVE_BOUND_LEFT, OBSERVE_BOUND_RIGHT, 0, 1);
    const int NumPhoton = 10000;
    const double step_size = 0.025; // cm
 
@@ -26,7 +35,7 @@ bool absorb_only(){
          step_index++;
          pos_z += step_size;
          // if random number < absorption probability -> Absorb
-         if( genRand() < SimpleStruct.get_mu_a(pos_z)*step_size ){
+         if( distribution(generator) < SimpleStruct.get_mu_a()*step_size ){
             absorb_distr[step_index-1] =  absorb_distr[step_index-1]+1;
             break;
          }
@@ -39,4 +48,5 @@ bool absorb_only(){
       Distr_Out << *it << ", " << (double)(*it)/NumPhoton<<endl;
    }
 
+   return true;
 }

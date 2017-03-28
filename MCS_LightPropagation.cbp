@@ -7,8 +7,8 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/Debug/MCS_LightPropagation" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/Debug/" />
+				<Option output="bin/MCS_LightPropagation" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -16,8 +16,8 @@
 				</Compiler>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/Release/MCS_LightPropagation" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/Release/" />
+				<Option output="bin/MCS_LightPropagation" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -32,7 +32,19 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="main.cpp" />
+		<Unit filename="src/AbsorbOnly.cpp" />
+		<Unit filename="src/AbsorbOnly.h" />
+		<Unit filename="src/MediaStructure.cpp" />
+		<Unit filename="src/MediaStructure.h" />
+		<Unit filename="src/Mismatch_Bound.cpp" />
+		<Unit filename="src/Mismatch_Bound.h" />
+		<Unit filename="src/Rand.cpp" />
+		<Unit filename="src/Rand.h" />
+		<Unit filename="src/Sim_Refl_Trans.cpp" />
+		<Unit filename="src/Sim_Refl_Trans.h" />
+		<Unit filename="src/Store_grid_info.cpp" />
+		<Unit filename="src/Store_grid_info.h" />
+		<Unit filename="src/main.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

@@ -2,10 +2,10 @@
 
 using namespace std;
 
-bool sim_rt_fixed_weight_iso(){
+bool sim_rt_fixed_weight_iso(std::string output_file){
 
    ofstream RT_Out;
-   RT_Out.open("Data/RT_fixed_weight_Out.txt", ofstream::app);
+   RT_Out.open(output_file.c_str(), ofstream::app);
 
    // Seed with generator
    mt19937 generator(time(0));
@@ -88,7 +88,7 @@ bool sim_rt_fixed_weight_iso(){
 }
 
 
-bool sim_rt_var_weight_aniso(){
+bool sim_rt_var_weight_aniso(std::string output_file){
 
    ofstream RT_Out;
    RT_Out.open("Data/RT_variable_weight_Out.txt", ofstream::app);

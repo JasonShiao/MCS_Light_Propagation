@@ -2,10 +2,10 @@
 
 using namespace std;
 
-bool absorb_only(){
+bool absorb_only(std::string output_file){
 
    ofstream Distr_Out;
-   Distr_Out.open("Data/Distr_Out.csv");
+   Distr_Out.open(output_file.c_str());
 
    // Seed with generator
    mt19937 generator(time(0));

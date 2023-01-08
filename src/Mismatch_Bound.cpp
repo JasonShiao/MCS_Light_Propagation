@@ -3,10 +3,10 @@
 
 using namespace std;
 
-bool sim_mismatch_boundary(){
+bool sim_mismatch_boundary(std::string output_file){
 
    ofstream Refl_Out;
-   Refl_Out.open("Data/Refl_Mismatch_Boundary_Out.txt", ofstream::app);
+   Refl_Out.open(output_file.c_str(), ofstream::app);
 
    // Seed with generator
    mt19937 generator(time(0));

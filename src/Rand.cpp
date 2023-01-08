@@ -6,7 +6,7 @@ double genRand(){
    return (double)(rand()%1000)/1000;
 }
 
-bool testRand(){
+bool testRand(std::string output_file_raw, std::string output_file_interval){
 
    default_random_engine generator;
    uniform_real_distribution<double> distribution(0.0, 1.0);
@@ -14,8 +14,8 @@ bool testRand(){
    const int NumTest = 10000;
 
    ofstream classify, rawdata;
-   classify.open ("Data/Interval.txt");
-   rawdata.open ("Data/RandomNums.txt");
+   classify.open(output_file_interval.c_str());
+   rawdata.open(output_file_raw.c_str());
    double RandArray[NumTest];
 
    for(int i=0;i<10000;++i) {

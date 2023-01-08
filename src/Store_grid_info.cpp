@@ -6,10 +6,10 @@
 
 using namespace std;
 
-bool Sim_gridInfo(){
+bool Sim_gridInfo(std::string output_file){
 
    ofstream Grid_Out;
-   Grid_Out.open("Data/Grid_Out.csv");
+   Grid_Out.open(output_file.c_str());
 
    // Seed with generator
    mt19937 generator(time(0));

@@ -7,8 +7,9 @@
 #include <fstream>
 #include <cmath>
 #include <random>
+#include <string>
 
-double genRand( );
-bool testRand( );
+double genRand();
+bool testRand(std::string output_file_raw, std::string output_file_interval);
 
 #endif // RAND_H_INCLUDED

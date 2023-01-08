@@ -6,13 +6,14 @@
 #include <fstream>
 #include <cmath>
 #include <iomanip>
+#include <string>
 
 #include "Rand.h"
 #include "MediaStructure.h"
 
 extern const double PI;
 
-bool Sim_gridInfo();
+bool Sim_gridInfo(std::string output_file);
 
 
 #endif // STORE_GRID_INFO_H_INCLUDED

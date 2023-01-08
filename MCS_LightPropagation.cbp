@@ -32,18 +32,18 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="src/AbsorbOnly.cpp" />
-		<Unit filename="src/AbsorbOnly.h" />
-		<Unit filename="src/MediaStructure.cpp" />
-		<Unit filename="src/MediaStructure.h" />
+		<Unit filename="src/absorb_only.cpp" />
+		<Unit filename="src/absorb_only.h" />
+		<Unit filename="src/media_structure.cpp" />
+		<Unit filename="src/media_structure.h" />
 		<Unit filename="src/Mismatch_Bound.cpp" />
-		<Unit filename="src/Mismatch_Bound.h" />
+		<Unit filename="src/mismatch_bound.h" />
 		<Unit filename="src/Rand.cpp" />
-		<Unit filename="src/Rand.h" />
-		<Unit filename="src/Sim_Refl_Trans.cpp" />
-		<Unit filename="src/Sim_Refl_Trans.h" />
-		<Unit filename="src/Store_grid_info.cpp" />
-		<Unit filename="src/Store_grid_info.h" />
+		<Unit filename="src/rand.h" />
+		<Unit filename="src/reflection_and_transmission.cpp" />
+		<Unit filename="src/reflection_and_transmission.h" />
+		<Unit filename="src/store_grid_info.cpp" />
+		<Unit filename="src/store_grid_info.h" />
 		<Unit filename="src/main.cpp" />
 		<Extensions>
 			<code_completion />

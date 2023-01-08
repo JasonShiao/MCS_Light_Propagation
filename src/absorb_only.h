@@ -7,9 +7,9 @@
 #include <vector>
 #include <string>
 
-#include "Rand.h"
-#include "MediaStructure.h"
+#include "rand.h"
+#include "media_structure.h"
 
-bool absorb_only(std::string output_file);
+bool absorbOnly(std::string output_file);
 
 #endif // ABSORBONLY_H_INCLUDED

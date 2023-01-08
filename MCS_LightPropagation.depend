@@ -3,10 +3,10 @@
 	<iostream>
 	<ctime>
 	<stdlib.h>
-	"Rand.h"
-	"AbsorbOnly.h"
-	"Sim_Refl_Trans.h"
-	"Mismatch_Bound.h"
+	"rand.h"
+	"absorb_only.h"
+	"reflection_and_transmission.h"
+	"mismatch_bound.h"
 
 1490389999 c:\users\user\desktop\project\mcs_lightpropagation\testrand.h
 	<iostream>
@@ -16,7 +16,7 @@
 	<cmath>
 
 1490390529 source:c:\users\user\desktop\project\mcs_lightpropagation\testrand.cpp
-	"TestRand.h"
+	"Testrand.h"
 
 1490391081 c:\users\user\desktop\project\mcs_lightpropagation\rand.h
 	<iostream>
@@ -26,56 +26,56 @@
 	<cmath>
 
 1490434728 source:c:\users\user\desktop\project\mcs_lightpropagation\rand.cpp
-	"Rand.h"
+	"rand.h"
 
 1490436759 source:c:\users\user\desktop\project\mcs_lightpropagation\absorbonly.cpp
-	"AbsorbOnly.h"
+	"absorb_only.h"
 
 1490436741 c:\users\user\desktop\project\mcs_lightpropagation\absorbonly.h
 	<iostream>
 	<stdlib.h>
 	<fstream>
 	<vector>
-	"Rand.h"
-	"MediaStructure.h"
+	"rand.h"
+	"media_structure.h"
 
 1490522426 c:\users\user\desktop\project\mcs_lightpropagation\mediastructure.h
 	<iostream>
 
 1490522511 source:c:\users\user\desktop\project\mcs_lightpropagation\mediastructure.cpp
-	"MediaStructure.h"
+	"media_structure.h"
 
 1490437217 c:\users\user\desktop\project\mcs_lightpropagation\sim_refl_trans.h
 	<iostream>
 	<stdlib.h>
 	<fstream>
 	<cmath>
-	"Rand.h"
-	"MediaStructure.h"
+	"rand.h"
+	"media_structure.h"
 
 1490438381 source:c:\users\user\desktop\project\mcs_lightpropagation\sim_refl_trans.cpp
-	"Sim_Refl_Trans.h"
+	"reflection_and_transmission.h"
 
 1490601123 source:c:\users\user\desktop\project\mcs_lightpropagation\mismatch_bound.cpp
-	"Mismatch_Bound.h"
+	"mismatch_bound.h"
 
 1490521049 c:\users\user\desktop\project\mcs_lightpropagation\mismatch_bound.h
 	<iostream>
 	<stdlib.h>
 	<fstream>
 	<cmath>
-	"Rand.h"
-	"MediaStructure.h"
+	"rand.h"
+	"media_structure.h"
 
 1490686043 source:c:\users\user\desktop\project\mcs_lightpropagation\src\main.cpp
 	<iostream>
 	<ctime>
 	<stdlib.h>
-	"Rand.h"
-	"AbsorbOnly.h"
-	"Sim_Refl_Trans.h"
-	"Mismatch_Bound.h"
-	"Store_grid_info.h"
+	"rand.h"
+	"absorb_only.h"
+	"reflection_and_transmission.h"
+	"mismatch_bound.h"
+	"store_grid_info.h"
 
 1490649090 c:\users\user\desktop\project\mcs_lightpropagation\src\rand.h
 	<iostream>
@@ -90,8 +90,8 @@
 	<stdlib.h>
 	<fstream>
 	<vector>
-	"Rand.h"
-	"MediaStructure.h"
+	"rand.h"
+	"media_structure.h"
 
 1490522426 c:\users\user\desktop\project\mcs_lightpropagation\src\mediastructure.h
 	<iostream>
@@ -101,31 +101,31 @@
 	<stdlib.h>
 	<fstream>
 	<cmath>
-	"Rand.h"
-	"MediaStructure.h"
+	"rand.h"
+	"media_structure.h"
 
 1490521049 c:\users\user\desktop\project\mcs_lightpropagation\src\mismatch_bound.h
 	<iostream>
 	<stdlib.h>
 	<fstream>
 	<cmath>
-	"Rand.h"
-	"MediaStructure.h"
+	"rand.h"
+	"media_structure.h"
 
 1490522511 source:c:\users\user\desktop\project\mcs_lightpropagation\src\mediastructure.cpp
-	"MediaStructure.h"
+	"media_structure.h"
 
 1490649615 source:c:\users\user\desktop\project\mcs_lightpropagation\src\rand.cpp
-	"Rand.h"
+	"rand.h"
 
 1490665087 source:c:\users\user\desktop\project\mcs_lightpropagation\src\absorbonly.cpp
-	"AbsorbOnly.h"
+	"absorb_only.h"
 
 1490665385 source:c:\users\user\desktop\project\mcs_lightpropagation\src\sim_refl_trans.cpp
-	"Sim_Refl_Trans.h"
+	"reflection_and_transmission.h"
 
 1490651516 source:c:\users\user\desktop\project\mcs_lightpropagation\src\mismatch_bound.cpp
-	"Mismatch_Bound.h"
+	"mismatch_bound.h"
 
 1490691426 c:\users\user\desktop\project\mcs_lightpropagation\src\store_grid_info.h
 	<iostream>
@@ -133,9 +133,9 @@
 	<fstream>
 	<cmath>
 	<iomanip>
-	"Rand.h"
-	"MediaStructure.h"
+	"rand.h"
+	"media_structure.h"
 
 1490690553 source:c:\users\user\desktop\project\mcs_lightpropagation\src\store_grid_info.cpp
-	"Store_grid_info.h"
+	"store_grid_info.h"
 

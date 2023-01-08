@@ -1,8 +1,8 @@
-#include "AbsorbOnly.h"
+#include "absorb_only.h"
 
 using namespace std;
 
-bool absorb_only(std::string output_file){
+bool absorbOnly(std::string output_file){
 
    ofstream Distr_Out;
    Distr_Out.open(output_file.c_str());
@@ -20,7 +20,7 @@ bool absorb_only(std::string output_file){
    const int NumPhoton = 10000;
    const double step_size = 0.025; // cm
 
-   int NumInterval = int(SimpleStruct.get_length()/step_size+0.5);
+   int NumInterval = int(SimpleStruct.getLength()/step_size+0.5);
 
    vector<int> absorb_distr( NumInterval, 0);
 
@@ -35,7 +35,7 @@ bool absorb_only(std::string output_file){
          step_index++;
          pos_z += step_size;
          // if random number < absorption probability -> Absorb
-         if( distribution(generator) < SimpleStruct.get_mu_a()*step_size ){
+         if( distribution(generator) < SimpleStruct.getMuA()*step_size ){
             absorb_distr[step_index-1] =  absorb_distr[step_index-1]+1;
             break;
          }

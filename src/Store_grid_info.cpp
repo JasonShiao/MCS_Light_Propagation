@@ -1,4 +1,4 @@
-#include "Store_grid_info.h"
+#include "store_grid_info.h"
 
 #define TISSUE_WIDTH 0.3      // in cm
 #define GRID_SIZE_R 0.01      // in cm
@@ -6,7 +6,7 @@
 
 using namespace std;
 
-bool Sim_gridInfo(std::string output_file){
+bool simGridInfo(std::string output_file){
 
    ofstream Grid_Out;
    Grid_Out.open(output_file.c_str());
@@ -33,10 +33,10 @@ bool Sim_gridInfo(std::string output_file){
    double x, y, z;   // position
    double theta, phi;  // in radians
    double in_angle;    // in radians
-   double theta_c = asin(Air.get_n()/Tissue.get_n());
+   double theta_c = asin(Air.getN()/Tissue.getN());
    double StepSize;
 
-   int Grid_rowCount = int((Tissue.get_bound('B')-Tissue.get_bound('T'))/GRID_SIZE_Z + 0.5); // round up
+   int Grid_rowCount = int((Tissue.getBound('B')-Tissue.getBound('T'))/GRID_SIZE_Z + 0.5); // round up
    int Grid_colCount = int(TISSUE_WIDTH/GRID_SIZE_R + 0.5);   // round up
    double** absorption_grid;
    absorption_grid = new double*[Grid_rowCount];
@@ -47,7 +47,7 @@ bool Sim_gridInfo(std::string output_file){
       for(int j = 0; j < Grid_colCount; ++j)
          absorption_grid[i][j] = 0;
    }
-   //double absorption_grid[(int)((Tissue.get_bound('B')-Tissue.get_bound('T'))/GRID_SIZE_Z)][(int)(TISSUE_WIDTH/GRID_SIZE_R)] = {0};   // (z,r)
+   //double absorption_grid[(int)((Tissue.getBound('B')-Tissue.getBound('T'))/GRID_SIZE_Z)][(int)(TISSUE_WIDTH/GRID_SIZE_R)] = {0};   // (z,r)
 
 
    cout<<"Simulating ..."<<endl;
@@ -75,17 +75,17 @@ bool Sim_gridInfo(std::string output_file){
       w = 1;
 
       //incident from outside to tissue
-      //if(distribution(generator) < pow((Tissue.get_n()-Air.get_n())/(Air.get_n()+Tissue.get_n()), 2 ) ){
+      //if(distribution(generator) < pow((Tissue.getN()-Air.getN())/(Air.getN()+Tissue.getN()), 2 ) ){
       //   Refl += w;
       //   continue;
       //}
-      Refl += w*pow((Tissue.get_n()-Air.get_n())/(Air.get_n()+Tissue.get_n()), 2 );
-      w = 1 - w*pow((Tissue.get_n()-Air.get_n())/(Air.get_n()+Tissue.get_n()), 2 );
+      Refl += w*pow((Tissue.getN()-Air.getN())/(Air.getN()+Tissue.getN()), 2 );
+      w = 1 - w*pow((Tissue.getN()-Air.getN())/(Air.getN()+Tissue.getN()), 2 );
 
       // Propagation of One photon
       while(1){
          //get step size
-         StepSize = - log(distribution(generator))/Tissue.get_mu_t();
+         StepSize = - log(distribution(generator))/Tissue.getMuT();
 
          double r, t, Rs, Rp;
          //move photon
@@ -95,7 +95,7 @@ bool Sim_gridInfo(std::string output_file){
          z=z+StepSize*cz;
 
          // In tissue ?
-         if( z < Tissue.get_bound('T') ){
+         if( z < Tissue.getBound('T') ){
             //in_angle = acos(-cz);
             in_angle = -atan(sqrt(1-cz*cz)/cz);
             // TIR ?
@@ -103,11 +103,11 @@ bool Sim_gridInfo(std::string output_file){
                r=1;
                t=0;
             }else{
-               double cos_t = sqrt( 1 - pow(Tissue.get_n()*sin(in_angle)/Air.get_n(),2) );
-               if ( pow( Tissue.get_n()*sin(in_angle)/Air.get_n(), 2) > 0.999999)
+               double cos_t = sqrt( 1 - pow(Tissue.getN()*sin(in_angle)/Air.getN(),2) );
+               if ( pow( Tissue.getN()*sin(in_angle)/Air.getN(), 2) > 0.999999)
                   cos_t = 0;
-               Rs = pow( ( ( Tissue.get_n()*cos(in_angle)-Air.get_n()*cos_t ) / ( Tissue.get_n()*cos(in_angle)+Air.get_n()*cos_t ) ), 2);
-               Rp = pow( ( ( Tissue.get_n()*cos_t-Air.get_n()*cos(in_angle) ) / ( Tissue.get_n()*cos_t+Air.get_n()*cos(in_angle) ) ), 2);
+               Rs = pow( ( ( Tissue.getN()*cos(in_angle)-Air.getN()*cos_t ) / ( Tissue.getN()*cos(in_angle)+Air.getN()*cos_t ) ), 2);
+               Rp = pow( ( ( Tissue.getN()*cos_t-Air.getN()*cos(in_angle) ) / ( Tissue.getN()*cos_t+Air.getN()*cos(in_angle) ) ), 2);
                r = (Rs+Rp)/2;
                t = 1-r;
             }
@@ -117,21 +117,21 @@ bool Sim_gridInfo(std::string output_file){
                break;
             }
 
-            z = Tissue.get_bound('T') - z;
+            z = Tissue.getBound('T') - z;
             cz = -cz;
 
-         }else if( z > Tissue.get_bound('B') ){
+         }else if( z > Tissue.getBound('B') ){
             //in_angle = acos(cz);
             // TIR ?
             if( in_angle > theta_c ){
                r=1;
                t=0;
             }else{
-               double cos_t = sqrt( 1 - pow(Tissue.get_n()*sin(in_angle)/Air.get_n(),2) );
-               if ( pow( Tissue.get_n()*sin(in_angle)/Air.get_n(), 2) > 0.999999)
+               double cos_t = sqrt( 1 - pow(Tissue.getN()*sin(in_angle)/Air.getN(),2) );
+               if ( pow( Tissue.getN()*sin(in_angle)/Air.getN(), 2) > 0.999999)
                   cos_t = 0;
-               Rs = pow( ( ( Tissue.get_n()*cos(in_angle)-Air.get_n()*cos_t ) / ( Tissue.get_n()*cos(in_angle)+Air.get_n()*cos_t ) ), 2);
-               Rp = pow( ( ( Tissue.get_n()*cos_t-Air.get_n()*cos(in_angle) ) / ( Tissue.get_n()*cos_t+Air.get_n()*cos(in_angle) ) ), 2);
+               Rs = pow( ( ( Tissue.getN()*cos(in_angle)-Air.getN()*cos_t ) / ( Tissue.getN()*cos(in_angle)+Air.getN()*cos_t ) ), 2);
+               Rp = pow( ( ( Tissue.getN()*cos_t-Air.getN()*cos(in_angle) ) / ( Tissue.getN()*cos_t+Air.getN()*cos(in_angle) ) ), 2);
                r = (Rs+Rp)/2;
                t = 1-r;
             }
@@ -141,12 +141,12 @@ bool Sim_gridInfo(std::string output_file){
                break;
             }
 
-            z = 2*Tissue.get_bound('B') - z;
+            z = 2*Tissue.getBound('B') - z;
             cz = -cz;
 
          }
 
-         //Absorb += w*Tissue.get_mu_a()/Tissue.get_mu_t();
+         //Absorb += w*Tissue.getMuA()/Tissue.getMuT();
          // update Absorption grids
          int grid_z;
          int grid_r;
@@ -157,10 +157,10 @@ bool Sim_gridInfo(std::string output_file){
          if( grid_r != 0 && sqrt(x*x+y*y)/GRID_SIZE_R - grid_r == 0) // When between 2 r-grids
             grid_r--;
          if(grid_z < Grid_rowCount && grid_r < Grid_colCount)
-            absorption_grid[grid_z][grid_r] += w*Tissue.get_mu_a()/Tissue.get_mu_t();
+            absorption_grid[grid_z][grid_r] += w*Tissue.getMuA()/Tissue.getMuT();
 
          // update weight
-         w = w*Tissue.get_mu_s()/Tissue.get_mu_t();
+         w = w*Tissue.getMuS()/Tissue.getMuT();
          if( w < 0.001){
             // play roulette
             if(distribution(generator) > 0.05){

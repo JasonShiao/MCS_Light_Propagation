@@ -1,4 +1,4 @@
-#include "MediaStructure.h"
+#include "media_structure.h"
 
 Media::Media(){
    mu_a = 0;

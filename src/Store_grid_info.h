@@ -8,12 +8,12 @@
 #include <iomanip>
 #include <string>
 
-#include "Rand.h"
-#include "MediaStructure.h"
+#include "rand.h"
+#include "media_structure.h"
 
 extern const double PI;
 
-bool Sim_gridInfo(std::string output_file);
+bool simGridInfo(std::string output_file);
 
 
 #endif // STORE_GRID_INFO_H_INCLUDED

@@ -10,13 +10,13 @@ class Media{
       Media(double, double, double, double, double, double);
       Media(double, double, double, double, double, double, double);
 
-      double get_mu_a(){ return mu_a; };
-      double get_mu_s(){ return mu_s; };
-      double get_mu_t(){ return mu_a+mu_s; };
-      double get_n(){ return diffrac_coeff; };
+      double getMuA(){ return mu_a; };
+      double getMuS(){ return mu_s; };
+      double getMuT(){ return mu_a+mu_s; };
+      double getN(){ return diffrac_coeff; };
 
-      double get_length(){ return bottom_boundary - top_boundary; };
-      double get_bound( char side) {
+      double getLength(){ return bottom_boundary - top_boundary; };
+      double getBound( char side) {
          switch(side){
             case 'L': return left_boundary;
             case 'R': return right_boundary;

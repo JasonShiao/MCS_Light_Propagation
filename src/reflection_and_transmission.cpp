@@ -1,8 +1,8 @@
-#include "Sim_Refl_Trans.h"
+#include "reflection_and_transmission.h"
 
 using namespace std;
 
-bool sim_rt_fixed_weight_iso(std::string output_file){
+bool simRTFixedWeightIso(std::string output_file){
 
    ofstream RT_Out;
    RT_Out.open(output_file.c_str(), ofstream::app);
@@ -35,7 +35,7 @@ bool sim_rt_fixed_weight_iso(std::string output_file){
       // Propagation of One photon
       while(1){
          //get step size
-         StepSize = - log(distribution(generator))/SimpleStruct.get_mu_t();
+         StepSize = - log(distribution(generator))/SimpleStruct.getMuT();
 
          // Move
          step_index++;
@@ -44,14 +44,14 @@ bool sim_rt_fixed_weight_iso(std::string output_file){
          y=y+StepSize*cy;
          z=z+StepSize*cz;
 
-         if( z <= SimpleStruct.get_bound('T')){
+         if( z <= SimpleStruct.getBound('T')){
             Refl++;
             break;
-         }else if( z >= SimpleStruct.get_bound('B')){
+         }else if( z >= SimpleStruct.getBound('B')){
             Trans++;
             break;
          }else{
-            if(distribution(generator) < SimpleStruct.get_mu_a()/SimpleStruct.get_mu_t()){  // Absorbed in Media
+            if(distribution(generator) < SimpleStruct.getMuA()/SimpleStruct.getMuT()){  // Absorbed in Media
                break;
             }else {     // Scattered
                // get theta, phi
@@ -88,10 +88,10 @@ bool sim_rt_fixed_weight_iso(std::string output_file){
 }
 
 
-bool sim_rt_var_weight_aniso(std::string output_file){
+bool simRTVarWeightAnIso(std::string output_file){
 
    ofstream RT_Out;
-   RT_Out.open("Data/RT_variable_weight_Out.txt", ofstream::app);
+   RT_Out.open(output_file.c_str(), ofstream::app);
 
    const double ANISO = 0.75;
 
@@ -124,20 +124,20 @@ bool sim_rt_var_weight_aniso(std::string output_file){
       // Propagation of One photon
       while(1){
          //get step size
-         StepSize = - log(distribution(generator))/SimpleStruct.get_mu_t();
+         StepSize = - log(distribution(generator))/SimpleStruct.getMuT();
          //move photon
          x=x+StepSize*cx;
          y=y+StepSize*cy;
          z=z+StepSize*cz;
-         if( z <= SimpleStruct.get_bound('T')){
+         if( z <= SimpleStruct.getBound('T')){
             Refl += w;
             break;
-         }else if( z >= SimpleStruct.get_bound('B') ){
+         }else if( z >= SimpleStruct.getBound('B') ){
             Trans += w;
             break;
          }else{
             // update weight
-            w = w*SimpleStruct.get_mu_s()/SimpleStruct.get_mu_t();
+            w = w*SimpleStruct.getMuS()/SimpleStruct.getMuT();
             if( w < 0.001){
                // play roulette
                if(distribution(generator) > 0.05)

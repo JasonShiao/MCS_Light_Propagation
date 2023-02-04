@@ -12,7 +12,7 @@ class Medium{
 
       double getMuA(){ return mu_a; };
       double getMuS(){ return mu_s; };
-      double getMuT(){ return mu_a+mu_s; };
+      double getMuT(){ return mu_a+mu_s; }; // mu_total
       double getN(){ return diffrac_coeff; };
 
       double getLength(){ return bottom_boundary - top_boundary; };

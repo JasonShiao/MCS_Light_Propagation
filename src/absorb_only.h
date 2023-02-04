@@ -7,7 +7,7 @@
 #include <vector>
 #include <string>
 
-#include "rand.h"
+#include "random_number.h"
 #include "media_structure.h"
 
 bool absorbOnly(std::string output_file);

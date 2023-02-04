@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string>
 
-#include "rand.h"
+#include "random_number.h"
 #include "absorb_only.h"
 #include "reflection_and_transmission.h"
 #include "mismatch_bound.h"
@@ -36,8 +36,8 @@ int main(int argc, char *argv[])
   std::cout << "Output filepath: " << output_file << std::endl;
 
   // 2. Setup
-  srand(time(NULL));
-  //testRand(output_file, "data/interval.txt");
+  // 2.5 Test random number
+  //random_number.test(10000, output_file, output_file.append("_classify"));
 
   // 3. Start simulation
   // Simulate light propagation in absorption-only media
@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
 
   // Simulate and Store Absorption in grids
   // Infinite narrow beam
-  simGridInfo(output_file); // "data/Grid_Out.csv"
+  //simGridInfo(output_file); // "data/Grid_Out.csv"
   // TODO: Gaussian beam
 
   // TODO: Uniform beam

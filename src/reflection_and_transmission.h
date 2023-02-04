@@ -7,7 +7,7 @@
 #include <cmath>
 #include <string>
 
-#include "rand.h"
+#include "random_number.h"
 #include "media_structure.h"
 
 extern const double PI;

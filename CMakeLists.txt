@@ -25,7 +25,7 @@ target_sources(${PROJECT_NAME} PRIVATE
   src/absorb_only.cpp
   src/media_structure.cpp
   src/mismatch_bound.cpp
-  src/rand.cpp
+  src/random_number.cpp
   src/reflection_and_transmission.cpp
   src/store_grid_info.cpp
 )

@@ -18,8 +18,8 @@ bool simMismatchBoundary(std::string output_file){
    const double OBSERVE_BOUND_TOP = -9999; // cm
    const double OBSERVE_BOUND_BOTTOM = 9999; // cm
 
-   Media Air(0, 0, 1, OBSERVE_BOUND_LEFT, OBSERVE_BOUND_RIGHT, OBSERVE_BOUND_TOP, 0);
-   Media Tissue(10, 90, 1.5, OBSERVE_BOUND_LEFT, OBSERVE_BOUND_RIGHT, 0, 0.2);
+   Medium Air(0, 0, 1, OBSERVE_BOUND_LEFT, OBSERVE_BOUND_RIGHT, OBSERVE_BOUND_TOP, 0);
+   Medium Tissue(10, 90, 1.5, OBSERVE_BOUND_LEFT, OBSERVE_BOUND_RIGHT, 0, 0.2);
 
    const int PHOTON_NUM = 10000;
 

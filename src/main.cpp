@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
   std::cout << "Output filepath: " << output_file << std::endl;
 
   // 2. Setup
-  // 2.5 Test random number
+  // 2.5 Test (Verify) random number
   //random_number.test(10000, output_file, output_file.append("_classify"));
 
   // 3. Start simulation

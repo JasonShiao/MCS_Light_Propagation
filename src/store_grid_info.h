@@ -9,7 +9,7 @@
 #include <string>
 
 #include "random_number.h"
-#include "media_structure.h"
+#include "medium_structure.h"
 
 extern const double PI;
 

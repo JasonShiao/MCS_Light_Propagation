@@ -22,8 +22,8 @@ bool simGridInfo(std::string output_file){
    const double OBSERVE_BOUND_TOP = -9999; // cm
    const double OBSERVE_BOUND_BOTTOM = 9999; // cm
 
-   Media Air(0, 0, 1, OBSERVE_BOUND_LEFT, OBSERVE_BOUND_RIGHT, OBSERVE_BOUND_TOP, 0);
-   Media Tissue(6, 414, 1.37, OBSERVE_BOUND_LEFT, OBSERVE_BOUND_RIGHT, 0, 0.15);
+   Medium Air(0, 0, 1, OBSERVE_BOUND_LEFT, OBSERVE_BOUND_RIGHT, OBSERVE_BOUND_TOP, 0);
+   Medium Tissue(6, 414, 1.37, OBSERVE_BOUND_LEFT, OBSERVE_BOUND_RIGHT, 0, 0.15);
 
    const int PHOTON_NUM = 10000;
 

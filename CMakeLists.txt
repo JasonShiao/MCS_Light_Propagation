@@ -23,7 +23,7 @@ add_executable(${PROJECT_NAME})
 target_sources(${PROJECT_NAME} PRIVATE
   src/main.cpp
   src/absorb_only.cpp
-  src/media_structure.cpp
+  src/medium_structure.cpp
   src/mismatch_bound.cpp
   src/random_number.cpp
   src/reflection_and_transmission.cpp

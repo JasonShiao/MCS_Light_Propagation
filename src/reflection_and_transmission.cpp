@@ -16,7 +16,7 @@ bool simRTFixedWeightIso(std::string output_file){
    const int OBSERVE_BOUND_TOP = -9999; // cm
    const int OBSERVE_BOUND_BOTTOM = 9999; // cm
 
-   Media SimpleStruct(10, 90, OBSERVE_BOUND_LEFT, OBSERVE_BOUND_RIGHT, 0, 0.02);
+   Medium SimpleStruct(10, 90, OBSERVE_BOUND_LEFT, OBSERVE_BOUND_RIGHT, 0, 0.02);
    const int PHOTON_NUM = 10000;
 
    int w = 1;  // fixed weight
@@ -51,7 +51,7 @@ bool simRTFixedWeightIso(std::string output_file){
             Trans++;
             break;
          }else{
-            if(distribution(generator) < SimpleStruct.getMuA()/SimpleStruct.getMuT()){  // Absorbed in Media
+            if(distribution(generator) < SimpleStruct.getMuA()/SimpleStruct.getMuT()){  // Absorbed in Medium
                break;
             }else {     // Scattered
                // get theta, phi
@@ -104,7 +104,7 @@ bool simRTVarWeightAnIso(std::string output_file){
    const int OBSERVE_BOUND_TOP = -9999; // cm
    const int OBSERVE_BOUND_BOTTOM = 9999; // cm
 
-   Media SimpleStruct(10, 90, OBSERVE_BOUND_LEFT, OBSERVE_BOUND_RIGHT, 0, 0.02);
+   Medium SimpleStruct(10, 90, OBSERVE_BOUND_LEFT, OBSERVE_BOUND_RIGHT, 0, 0.02);
    const int PHOTON_NUM = 10000;
 
    double w;  // fixed weight

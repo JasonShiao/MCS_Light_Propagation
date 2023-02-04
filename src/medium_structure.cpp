@@ -1,6 +1,6 @@
-#include "media_structure.h"
+#include "medium_structure.h"
 
-Media::Media(){
+Medium::Medium(){
    mu_a = 0;
    mu_s = 0;
    left_boundary = 0;
@@ -10,7 +10,7 @@ Media::Media(){
    diffrac_coeff = 1;
 }
 
-Media::Media(double mu_absorb, double mu_scatter, double b_left, double b_right, double b_top, double b_bottom){
+Medium::Medium(double mu_absorb, double mu_scatter, double b_left, double b_right, double b_top, double b_bottom){
    mu_a = mu_absorb;
    mu_s = mu_scatter;
    left_boundary = b_left;
@@ -20,7 +20,7 @@ Media::Media(double mu_absorb, double mu_scatter, double b_left, double b_right,
    diffrac_coeff = 1;
 }
 
-Media::Media(double mu_absorb, double mu_scatter, double n, double b_left, double b_right, double b_top, double b_bottom){
+Medium::Medium(double mu_absorb, double mu_scatter, double n, double b_left, double b_right, double b_top, double b_bottom){
    mu_a = mu_absorb;
    mu_s = mu_scatter;
    left_boundary = b_left;
@@ -30,7 +30,7 @@ Media::Media(double mu_absorb, double mu_scatter, double n, double b_left, doubl
    diffrac_coeff = n;
 }
 
-Media::~Media()
+Medium::~Medium()
 {
 
 }

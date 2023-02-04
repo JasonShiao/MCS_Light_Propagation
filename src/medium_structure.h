@@ -1,14 +1,14 @@
-#ifndef MEDIASTRUCTURE_H_INCLUDED
-#define MEDIASTRUCTURE_H_INCLUDED
+#ifndef MEDIUMSTRUCTURE_H_INCLUDED
+#define MEDIUMSTRUCTURE_H_INCLUDED
 
 #include <iostream>
 using namespace std;
 
-class Media{
+class Medium{
    public:
-      Media();
-      Media(double, double, double, double, double, double);
-      Media(double, double, double, double, double, double, double);
+      Medium();
+      Medium(double mu_absorb, double mu_scatter, double b_left, double b_right, double b_top, double b_bottom);
+      Medium(double mu_absorb, double mu_scatter, double n, double b_left, double b_right, double b_top, double b_bottom);
 
       double getMuA(){ return mu_a; };
       double getMuS(){ return mu_s; };
@@ -26,18 +26,18 @@ class Media{
          }
       };
 
-      virtual ~Media();
+      virtual ~Medium();
    protected:
    private:
-      double mu_a;
-      double mu_s;
+      double mu_a;           // in unit of cm^(-1)
+      double mu_s;           // no unit
       // Z-axis Downward
-      double left_boundary;
-      double right_boundary;
-      double top_boundary;
-      double bottom_boundary;
+      double left_boundary;  // in unit of cm
+      double right_boundary; // in unit of cm
+      double top_boundary;   // in unit of cm
+      double bottom_boundary;// in unit of cm
       double diffrac_coeff;
 
 };
 
-#endif // MEDIASTRUCTURE_H_INCLUDED
+#endif // MEDIUMSTRUCTURE_H_INCLUDED

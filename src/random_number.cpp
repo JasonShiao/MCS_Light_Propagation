@@ -10,8 +10,9 @@ using namespace std;
 RandomNumber random_number{0.0, 1.0};
 
 RandomNumber::RandomNumber(double min, double max): mt_(rd_()), min_{min}, max_{max} {
+   // ASSERT max > min
    //dist_ = std::uniform_real_distribution<>(min, max);
-   dist_ = std::uniform_int_distribution<>(int(min * 10000), int(max * 10000));
+   dist_ = std::uniform_int_distribution<>(int(min * 10000 + 1), int(max * 10000));
 }
 
 void RandomNumber::resetSeed() {

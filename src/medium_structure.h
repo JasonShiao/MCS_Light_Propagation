@@ -12,8 +12,8 @@ class Medium{
 
       double getMuA(){ return mu_a; };
       double getMuS(){ return mu_s; };
-      double getMuT(){ return mu_a+mu_s; }; // mu_total
-      double getN(){ return diffrac_coeff; };
+      double getMuT(){ return mu_a+mu_s; };   // mu_total
+      double getN(){ return diffrac_coeff; }; // index
 
       double getLength(){ return bottom_boundary - top_boundary; };
       double getBound( char side) {
@@ -36,7 +36,7 @@ class Medium{
       double right_boundary; // in unit of cm
       double top_boundary;   // in unit of cm
       double bottom_boundary;// in unit of cm
-      double diffrac_coeff;
+      double diffrac_coeff;  // index value
 
 };
 

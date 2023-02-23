@@ -13,7 +13,7 @@
 
 extern const double PI;
 
-bool simGridInfo(std::string output_file);
+bool simAbsorptionGridInfo(std::string output_file);
 
 
 #endif // STORE_GRID_INFO_H_INCLUDED

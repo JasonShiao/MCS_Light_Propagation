@@ -44,17 +44,17 @@ int main(int argc, char *argv[])
   //absorbOnly(output_file); // "data/Distr_Out.csv"
 
   // Simulate Reflectance and Transmittance of Single-layer media
-  //simRTFixedWeightIso(output_file); // "data/RT_fixed_weight_Out.txt"
+  //simFixedWeightIsoScatter(output_file); // "data/RT_fixed_weight_Out.txt"
   
   // Simulate Reflectance and Transmittance of Single-layer media
-  //simRTVarWeightAnIso(output_file); // "data/RT_variable_weight_Out.txt"
+  //simVarWeightAnisoScatter(output_file); // "data/RT_variable_weight_Out.txt"
 
   // Simulate Mismatch Boundary: Air-Tissue
   //simMismatchBoundary(output_file); // "data/Refl_Mismatch_Boundary_Out.txt"
 
   // Simulate and Store Absorption in grids
   // Infinite narrow beam
-  //simGridInfo(output_file); // "data/Grid_Out.csv"
+  //simAbsorptionGridInfo(output_file); // "data/Grid_Out.csv"
   // TODO: Gaussian beam
 
   // TODO: Uniform beam

@@ -1,4 +1,6 @@
 #include "store_grid_info.h"
+#include "medium_structure.h"
+#include "random_number.h"
 
 #define TISSUE_WIDTH 0.3      // in cm
 #define GRID_SIZE_R 0.01      // in cm
@@ -6,209 +8,214 @@
 
 using namespace std;
 
-bool simGridInfo(std::string output_file){
+/**
+ * @brief Simulate with mu_a = 6 cm-1, mu_s = 414 cm-1, g = 0.91, Henyey-Greenstein phase function, 
+ *        n1(air) = 1, n2(tissue) = 1.37, tissue thickness = 1.5 mm.
+ *        Develop a grid (3 mm wide, 1.5 mm deep). 
+ * 
+ *        Let delta_r = delta_z = 0.1 mm. 
+ *        Use an infinitely narrow beam with normal incidence at the origin
+*/
+bool simAbsorptionGridInfo(std::string output_file){
 
-   ofstream Grid_Out;
-   Grid_Out.open(output_file.c_str());
+   ofstream absorb_grid_output;
+   absorb_grid_output.open(output_file.c_str());
 
-   // Seed with generator
-   mt19937 generator(time(0));
-   uniform_real_distribution<double> distribution(0.0, 1.0);
-
-   const double ANISO = 0.91;
+   const double kAnisotropic = 0.91;
    // Direction of Z-axis is Downward
    const double OBSERVE_BOUND_LEFT = -9999; // cm
    const double OBSERVE_BOUND_RIGHT = 9999; // cm
    const double OBSERVE_BOUND_TOP = -9999; // cm
    const double OBSERVE_BOUND_BOTTOM = 9999; // cm
 
-   Medium Air(0, 0, 1, OBSERVE_BOUND_LEFT, OBSERVE_BOUND_RIGHT, OBSERVE_BOUND_TOP, 0);
-   Medium Tissue(6, 414, 1.37, OBSERVE_BOUND_LEFT, OBSERVE_BOUND_RIGHT, 0, 0.15);
+   Medium air_medium(0, 0, 1, OBSERVE_BOUND_LEFT, OBSERVE_BOUND_RIGHT, OBSERVE_BOUND_TOP, 0);
+   Medium tissue_medium(6, 414, 1.37, OBSERVE_BOUND_LEFT, OBSERVE_BOUND_RIGHT, 0, 0.15);
 
-   const int PHOTON_NUM = 10000;
+   const int kTotalNumPhoton = 10000;
 
-   double w;
-   double Refl = 0, Trans = 0, Absorb = 0;
-   double cx, cy, cz;  // velocity direction
-   double x, y, z;   // position
-   double theta, phi;  // in radians
-   double in_angle;    // in radians
-   double theta_c = asin(Air.getN()/Tissue.getN());
-   double StepSize;
+   double reflection = 0, transmission = 0, absorption = 0;
 
-   int Grid_rowCount = int((Tissue.getBound('B')-Tissue.getBound('T'))/GRID_SIZE_Z + 0.5); // round up
-   int Grid_colCount = int(TISSUE_WIDTH/GRID_SIZE_R + 0.5);   // round up
+   // Initialize storage grid
+   int grid_row_count = int((tissue_medium.getBound('B') - tissue_medium.getBound('T')) / GRID_SIZE_Z + 0.5); // round up
+   int grid_col_count = int(TISSUE_WIDTH/GRID_SIZE_R + 0.5);   // round up
    double** absorption_grid;
-   absorption_grid = new double*[Grid_rowCount];
-   for(int i = 0; i < Grid_rowCount; ++i){
-      absorption_grid[i] = new double[Grid_colCount];
+   absorption_grid = new double*[grid_row_count];
+   for (int i = 0; i < grid_row_count; ++i) {
+      absorption_grid[i] = new double[grid_col_count];
    }
-   for(int i = 0; i < Grid_rowCount; ++i){
-      for(int j = 0; j < Grid_colCount; ++j)
+   for (int i = 0; i < grid_row_count; ++i) {
+      for(int j = 0; j < grid_col_count; ++j)
          absorption_grid[i][j] = 0;
    }
-   //double absorption_grid[(int)((Tissue.getBound('B')-Tissue.getBound('T'))/GRID_SIZE_Z)][(int)(TISSUE_WIDTH/GRID_SIZE_R)] = {0};   // (z,r)
+   //double absorption_grid[(int)((tissue_medium.getBound('B')-tissue_medium.getBound('T'))/GRID_SIZE_Z)][(int)(TISSUE_WIDTH/GRID_SIZE_R)] = {0};   // (z,r)
 
+   cout << "Simulating ..." << endl;
+   for (int i = 0; i < kTotalNumPhoton; i++) {
+      double w;
+      double x, y, z;     // position
+      double cx, cy, cz;  // velocity direction
+      double theta, phi;  // scattering, in unit of radians
+      double theta_c = asin(air_medium.getN() / tissue_medium.getN());
+      double step_size;
 
-   cout<<"Simulating ..."<<endl;
+      if (i % 200 == 0) {
+         cout << setw(2) << setprecision(2) << (int)((float)i / kTotalNumPhoton * 100) << "%" << "\r";
+      }
 
-   for(int i=0;i<PHOTON_NUM;i++){
-      if( i % 200 == 0)
-         cout << setw(2)<<setprecision(2)<< (int)((float)i/PHOTON_NUM*100) <<"%"<<"\r";
-      //initialization
+      // Single photon initialization
       int step_index = 0;
-      cx = 0;cy = 0;cz = 1;   // cx^2+cy^2+cz^2 = 1
-      // ============== Infinite Narrow =================
+      cx = 0; cy = 0; cz = 1;   // cx^2+cy^2+cz^2 = 1
+      // ============== Infinite Narrow beam =================
       //x = 0;y = 0;z = 0;
       z = 0;
-      // ================== Uniform =====================
-      /*double rBeam = 0.05*sqrt(distribution(generator));
-      double thetaBeam = distribution(generator);
+      // ================== Uniform distrib beam =====================
+      /*double rBeam = 0.05*sqrt(random_number.gen());
+      double thetaBeam = random_number.gen();
       x = rBeam*cos(2*PI*thetaBeam);
       y = rBeam*sin(2*PI*thetaBeam);*/
-      // ================== Gaussian ====================
-      double rBeam = 0.05*sqrt(-log(1-distribution(generator))/2);
-      double thetaBeam = distribution(generator);
+      // ================== Gaussian distrib beam ====================
+      double rBeam = 0.05*sqrt(-log(1-random_number.gen())/2);
+      double thetaBeam = random_number.gen();
       x = rBeam*cos(2*PI*thetaBeam);
       y = rBeam*sin(2*PI*thetaBeam);
 
       w = 1;
 
       //incident from outside to tissue
-      //if(distribution(generator) < pow((Tissue.getN()-Air.getN())/(Air.getN()+Tissue.getN()), 2 ) ){
-      //   Refl += w;
+      //if(random_number.gen() < pow((tissue_medium.getN()-air_medium.getN())/(air_medium.getN()+tissue_medium.getN()), 2 ) ){
+      //   reflection += w;
       //   continue;
       //}
-      Refl += w*pow((Tissue.getN()-Air.getN())/(Air.getN()+Tissue.getN()), 2 );
-      w = 1 - w*pow((Tissue.getN()-Air.getN())/(Air.getN()+Tissue.getN()), 2 );
+      reflection += w*pow((tissue_medium.getN()-air_medium.getN())/(air_medium.getN()+tissue_medium.getN()), 2 );
+      w = 1 - w*pow((tissue_medium.getN()-air_medium.getN())/(air_medium.getN()+tissue_medium.getN()), 2 );
 
       // Propagation of One photon
-      while(1){
-         //get step size
-         StepSize = - log(distribution(generator))/Tissue.getMuT();
+      while (1) {
+         // 1. Get step size
+         step_size = - log(random_number.gen())/tissue_medium.getMuT();
 
-         double r, t, Rs, Rp;
-         //move photon
+         // 2. Move photon
          step_index++;
-         x=x+StepSize*cx;
-         y=y+StepSize*cy;
-         z=z+StepSize*cz;
+         x += step_size * cx;
+         y += step_size * cy;
+         z += step_size * cz;
 
-         // In tissue ?
-         if( z < Tissue.getBound('T') ){
+         // 3. Check whether still in tissue, handle reflection and transmission at boundary
+         double fresnel_reflect, fresnel_transmit, fresnell_reflect_s_polar, fresnell_reflect_p_polar;
+         double in_angle;    // in radians
+         if (z < tissue_medium.getBound('T')) {
             //in_angle = acos(-cz);
-            in_angle = -atan(sqrt(1-cz*cz)/cz);
-            // TIR ?
-            if( in_angle > theta_c ){
-               r=1;
-               t=0;
-            }else{
-               double cos_t = sqrt( 1 - pow(Tissue.getN()*sin(in_angle)/Air.getN(),2) );
-               if ( pow( Tissue.getN()*sin(in_angle)/Air.getN(), 2) > 0.999999)
+            in_angle = -atan(sqrt(1 - cz * cz) / cz);
+            // Check whether Total Internal Reflection (TIR)
+            if (in_angle > theta_c) {
+               fresnel_reflect = 1;
+               fresnel_transmit = 0;
+            } else {
+               double cos_t = sqrt( 1 - pow(tissue_medium.getN() * sin(in_angle) / air_medium.getN(), 2) );
+               if (pow(tissue_medium.getN() * sin(in_angle) / air_medium.getN(), 2) > 0.999999) {
                   cos_t = 0;
-               Rs = pow( ( ( Tissue.getN()*cos(in_angle)-Air.getN()*cos_t ) / ( Tissue.getN()*cos(in_angle)+Air.getN()*cos_t ) ), 2);
-               Rp = pow( ( ( Tissue.getN()*cos_t-Air.getN()*cos(in_angle) ) / ( Tissue.getN()*cos_t+Air.getN()*cos(in_angle) ) ), 2);
-               r = (Rs+Rp)/2;
-               t = 1-r;
+               }
+               fresnell_reflect_s_polar = pow( ((tissue_medium.getN() * cos(in_angle) - air_medium.getN() * cos_t) / (tissue_medium.getN() * cos(in_angle) + air_medium.getN() * cos_t)), 2);
+               fresnell_reflect_p_polar = pow( ((tissue_medium.getN() * cos_t - air_medium.getN() * cos(in_angle)) / (tissue_medium.getN() * cos_t + air_medium.getN() * cos(in_angle))), 2);
+               fresnel_reflect = (fresnell_reflect_s_polar + fresnell_reflect_p_polar) / 2;
+               fresnel_transmit = 1 - fresnel_reflect;
             }
 
-            if(distribution(generator) < t){
-               Refl = Refl + w;
+            if (random_number.gen() < fresnel_transmit) {
+               reflection = reflection + w;
                break;
             }
 
-            z = Tissue.getBound('T') - z;
+            z = tissue_medium.getBound('T') - z;
             cz = -cz;
-
-         }else if( z > Tissue.getBound('B') ){
+         } else if (z > tissue_medium.getBound('B')) {
             //in_angle = acos(cz);
             // TIR ?
-            if( in_angle > theta_c ){
-               r=1;
-               t=0;
-            }else{
-               double cos_t = sqrt( 1 - pow(Tissue.getN()*sin(in_angle)/Air.getN(),2) );
-               if ( pow( Tissue.getN()*sin(in_angle)/Air.getN(), 2) > 0.999999)
+            if (in_angle > theta_c ) {
+               fresnel_reflect = 1;
+               fresnel_transmit = 0;
+            } else {
+               double cos_t = sqrt(1 - pow(tissue_medium.getN() * sin(in_angle) / air_medium.getN(), 2));
+               if (pow(tissue_medium.getN() * sin(in_angle) / air_medium.getN(), 2) > 0.999999) {
                   cos_t = 0;
-               Rs = pow( ( ( Tissue.getN()*cos(in_angle)-Air.getN()*cos_t ) / ( Tissue.getN()*cos(in_angle)+Air.getN()*cos_t ) ), 2);
-               Rp = pow( ( ( Tissue.getN()*cos_t-Air.getN()*cos(in_angle) ) / ( Tissue.getN()*cos_t+Air.getN()*cos(in_angle) ) ), 2);
-               r = (Rs+Rp)/2;
-               t = 1-r;
+               }
+               fresnell_reflect_s_polar = pow( ( ( tissue_medium.getN()*cos(in_angle)-air_medium.getN()*cos_t ) / ( tissue_medium.getN()*cos(in_angle)+air_medium.getN()*cos_t ) ), 2);
+               fresnell_reflect_p_polar = pow( ( ( tissue_medium.getN()*cos_t-air_medium.getN()*cos(in_angle) ) / ( tissue_medium.getN()*cos_t+air_medium.getN()*cos(in_angle) ) ), 2);
+               fresnel_reflect = (fresnell_reflect_s_polar+fresnell_reflect_p_polar) / 2;
+               fresnel_transmit = 1 - fresnel_reflect;
             }
 
-            if(distribution(generator) < t){
-               Trans = Trans + w;
+            if (random_number.gen() < fresnel_transmit) {
+               transmission = transmission + w;
                break;
             }
 
-            z = 2*Tissue.getBound('B') - z;
+            z = 2 * tissue_medium.getBound('B') - z;
             cz = -cz;
-
          }
 
-         //Absorb += w*Tissue.getMuA()/Tissue.getMuT();
-         // update Absorption grids
+         //absorption += w*tissue_medium.getMuA()/tissue_medium.getMuT();
+         // 4. Absorption, update absorption grids
          int grid_z;
          int grid_r;
-         grid_z = (int)(z/GRID_SIZE_Z);
-         grid_r = (int)(sqrt(x*x+y*y)/GRID_SIZE_R);
-         if( grid_z != 0 && z/GRID_SIZE_Z - grid_z == 0) // When between 2 z-grids
+         grid_z = (int)(z / GRID_SIZE_Z);
+         grid_r = (int)(sqrt(x * x + y * y) / GRID_SIZE_R);
+         if (grid_z != 0 && z / GRID_SIZE_Z - grid_z == 0) // When between 2 z-grids
             grid_z--;
-         if( grid_r != 0 && sqrt(x*x+y*y)/GRID_SIZE_R - grid_r == 0) // When between 2 r-grids
+         if (grid_r != 0 && sqrt(x * x + y * y) / GRID_SIZE_R - grid_r == 0) // When between 2 r-grids
             grid_r--;
-         if(grid_z < Grid_rowCount && grid_r < Grid_colCount)
-            absorption_grid[grid_z][grid_r] += w*Tissue.getMuA()/Tissue.getMuT();
+         if (grid_z < grid_row_count && grid_r < grid_col_count)
+            absorption_grid[grid_z][grid_r] += w * tissue_medium.getMuA() / tissue_medium.getMuT();
 
-         // update weight
-         w = w*Tissue.getMuS()/Tissue.getMuT();
-         if( w < 0.001){
+         // 5. Update weight after absorption (remaining scattering part)
+         w = w * tissue_medium.getMuS() / tissue_medium.getMuT();
+         if (w < 0.001) {
             // play roulette
-            if(distribution(generator) > 0.05){
-               //Absorb+=w;
+            if (random_number.gen() > 0.05) {
+               //absorption+=w;
                break;
-            }else{
-               w*=20;
+            } else {
+               w *= 20;
                continue;
             }
          }
 
-         // get theta, phi
-         phi = 2*PI*distribution(generator);
-         theta = acos(1/(2*ANISO)*(1+pow(ANISO, 2.0)-pow((1-pow(ANISO, 2.0))/(1-ANISO+2*ANISO*distribution(generator)), 2.0)));
-         // update cx, cy, cz
+         // 6. Anisotropic Scattering: get theta & phi and update cx, cy, cz
+         phi = 2 * PI * random_number.gen();
+         theta = acos(1 / (2 * kAnisotropic) * (1 + pow(kAnisotropic, 2.0) - pow((1 - pow(kAnisotropic, 2.0)) / (1 - kAnisotropic + 2 * kAnisotropic * random_number.gen()), 2.0)));
          double cx_t, cy_t, cz_t;
-         if(cz > 0.99999 || cz < -0.99999){
-            cx_t = sin(theta)*cos(phi);
-            cy_t = sin(theta)*sin(phi);
+         if (cz > 0.99999 || cz < -0.99999) {
+            cx_t = sin(theta) * cos(phi);
+            cy_t = sin(theta) * sin(phi);
             //cy_t = cz >= 0 ? sin(theta)*sin(phi):-sin(theta)*sin(phi);
-            cz_t = cz >= 0 ? cos(theta):-cos(theta);
-         }else{
-            cx_t = sin(theta)*(cx*cz*cos(phi)-cy*sin(phi))/sqrt(1-cz*cz) + cx*cos(theta);
-            cy_t = sin(theta)*(cy*cz*cos(phi)+cx*sin(phi))/sqrt(1-cz*cz) + cy*cos(theta);
-            cz_t = - sin(theta)*cos(phi)*sqrt(1-cz*cz) + cz*cos(theta);
+            cz_t = cz >= 0 ? cos(theta) : -cos(theta);
+         } else {
+            cx_t = sin(theta) * (cx * cz * cos(phi) - cy * sin(phi)) / sqrt(1 - cz * cz) + cx * cos(theta);
+            cy_t = sin(theta) * (cy * cz * cos(phi) + cx * sin(phi)) / sqrt(1 - cz * cz) + cy * cos(theta);
+            cz_t = -sin(theta) * cos(phi) * sqrt(1 - cz * cz) + cz * cos(theta);
          }
          cx = cx_t;
          cy = cy_t;
          cz = cz_t;
+      } // end of while loop of propagation of a single photon
+   } // end of for loop of iteration for all photons
 
+   // Display result
+   cout << "R = " << (double)reflection / kTotalNumPhoton << ", T = " << (double)transmission / kTotalNumPhoton << endl;
+   //absorb_grid_output << "R = "<< (double)reflection/kTotalNumPhoton <<", T = "<< (double)transmission/kTotalNumPhoton <<endl;
+   for (int i = 0; i < grid_row_count; i++) {
+      for (int j = 0; j < grid_col_count; j++) {
+         absorb_grid_output << absorption_grid[i][j] << ", ";
       }
-
+      absorb_grid_output << endl;
    }
 
-   cout << "R = "<< (double)Refl/PHOTON_NUM <<", T = "<< (double)Trans/PHOTON_NUM << endl;
-   //Grid_Out << "R = "<< (double)Refl/PHOTON_NUM <<", T = "<< (double)Trans/PHOTON_NUM <<endl;
-   for(int i=0;i<Grid_rowCount;i++){
-      for(int j=0;j<Grid_colCount;j++){
-         Grid_Out << absorption_grid[i][j] << ", ";
-      }
-      Grid_Out << endl;
-   }
-
-   for(int i = 0; i < Grid_rowCount; ++i)
+   // Clean up
+   for (int i = 0; i < grid_row_count; ++i) {
       delete [] absorption_grid[i];
+   }
    delete [] absorption_grid;
-   Grid_Out.close();
+   absorb_grid_output.close();
 
    return true;
-
 }

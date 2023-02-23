@@ -1,5 +1,6 @@
 #include "reflection_and_transmission.h"
 #include "random_number.h"
+#include "medium_structure.h"
 
 using namespace std;
 
@@ -13,7 +14,7 @@ using namespace std;
  *        Calculate the transmission fraction T and reflection fraction R,
  *        The solution of adding-doubling (by Van de Hulst) gives reflectance R = 0.3616 and transmittance T = 0.3565.
 */
-bool simRTFixedWeightIso(std::string output_file){
+bool simFixedWeightIsoScatter(std::string output_file){
 
    ofstream RT_Out;
    RT_Out.open(output_file.c_str(), ofstream::app);
@@ -42,7 +43,7 @@ bool simRTFixedWeightIso(std::string output_file){
       // Propagation of One photon
       while (1) {
          //get step size
-         step_size = -log(random_number.gen() + 0.00001) / tissue_slab_medium.getMuT();
+         step_size = -log(random_number.gen()) / tissue_slab_medium.getMuT();
 
          // Move
          step_index++;
@@ -66,13 +67,13 @@ bool simRTFixedWeightIso(std::string output_file){
                theta = acos(2 * random_number.gen() - 1);
                // update cx, cy, cz
                double cx_t, cy_t, cz_t;
-               if(cz > 0.99999 || cz < -0.99999){
+               if (cz > 0.99999 || cz < -0.99999) {
                   cx_t = sin(theta) * cos(phi);
                   cy_t = sin(theta) * sin(phi);
                   cz_t = cz >= 0 ? cos(theta) : -cos(theta);
-               }else{
-                  cx_t = sin(theta) * (cx*cz*cos(phi)-cy*sin(phi)) / sqrt(1 - cz * cz) + cx * cos(theta);
-                  cy_t = sin(theta) * (cy*cz*cos(phi)+cx*sin(phi)) / sqrt(1 - cz * cz) + cy * cos(theta);
+               } else {
+                  cx_t = sin(theta) * (cx*cz*cos(phi) - cy*sin(phi)) / sqrt(1 - cz * cz) + cx * cos(theta);
+                  cy_t = sin(theta) * (cy*cz*cos(phi) + cx*sin(phi)) / sqrt(1 - cz * cz) + cy * cos(theta);
                   cz_t = -sin(theta) * cos(phi) * sqrt(1 - cz * cz) + cz * cos(theta);
                }
                cx = cx_t;
@@ -97,13 +98,13 @@ bool simRTFixedWeightIso(std::string output_file){
  *        in a tissue slab medium with u_s = 90 cm^-1, u_a = 10 cm^-1, thickness = 0.02 cm
  *        
  *        Simulate with "anisotropic scattering" and 10,000 "variable weight" photons
- *        Use the Henyey-Greenstein phase function with g = 0.75
+ *        Use the Henyey-Greenstein phase function with Anisotropy factor g = 0.75
  * 
  *        Assume the index matched with the outside medium ( = no direct reflection in the boundary)
  *        Calculate the transmission fraction T and reflection fraction R,
  *        The solution of adding-doubling (by Van de Hulst) gives reflectance R = 0.09739 and transmittance T = 0.66096.
 */
-bool simRTVarWeightAnIso(std::string output_file) {
+bool simVarWeightAnisoScatter(std::string output_file) {
 
    ofstream RT_Out;
    RT_Out.open(output_file.c_str(), ofstream::app);

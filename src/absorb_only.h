@@ -8,7 +8,6 @@
 #include <string>
 
 #include "random_number.h"
-#include "medium_structure.h"
 
 bool absorbOnly(std::string output_file);
 

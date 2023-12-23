@@ -1,4 +1,4 @@
-# Monte-Carlo Simulation for Light Propagation in materials
+# Monte-Carlo Simulation for Light Propagation in media
 
 
 ## Run CMake
@@ -7,7 +7,7 @@
 ## Build
 ```cmake --build build```
 
-## Others
+## Notes
 1. When we reduce n for rand()%n/n, 
 the std of number of data between 20 intervals will decrease!
 

@@ -13,7 +13,13 @@
 
 extern const double PI;
 
-bool simAbsorptionGridInfo(std::string output_file);
+enum class InputBeamType {
+    kInifiniteNarrowBeam,
+    kUniformDistribBeam,
+    kGaussianDistribBeam
+};
+
+bool simAbsorptionGridInfo(std::string output_file, InputBeamType input_beam_type);
 
 
 #endif // STORE_GRID_INFO_H_INCLUDED

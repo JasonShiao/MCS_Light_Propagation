@@ -54,10 +54,12 @@ int main(int argc, char *argv[])
 
   // Simulate and Store Absorption in grids
   // Infinite narrow beam
-  //simAbsorptionGridInfo(output_file); // "data/Grid_Out.csv"
-  // TODO: Gaussian beam
+  //simAbsorptionGridInfo(output_file, InputBeamType::kInifiniteNarrowBeam); // "data/Grid_Out.csv"
+  // Uniform beam
+  //simAbsorptionGridInfo(output_file, InputBeamType::kUniformDistribBeam);
+  // Gaussian beam
+  //simAbsorptionGridInfo(output_file, InputBeamType::kGaussianDistribBeam);
 
-  // TODO: Uniform beam
 
   return 0;
 }

@@ -14,9 +14,8 @@ using namespace std;
  *        Develop a grid (3 mm wide, 1.5 mm deep). 
  * 
  *        Let delta_r = delta_z = 0.1 mm. 
- *        Use an infinitely narrow beam with normal incidence at the origin
 */
-bool simAbsorptionGridInfo(std::string output_file){
+bool simAbsorptionGridInfo(std::string output_file, InputBeamType input_beam_type){
 
    ofstream absorb_grid_output;
    absorb_grid_output.open(output_file.c_str());
@@ -65,21 +64,33 @@ bool simAbsorptionGridInfo(std::string output_file){
       // Single photon initialization
       int step_index = 0;
       cx = 0; cy = 0; cz = 1;   // cx^2+cy^2+cz^2 = 1
-      // ============== Infinite Narrow beam =================
-      //x = 0;y = 0;z = 0;
-      z = 0;
-      // ================== Uniform distrib beam =====================
-      /*double rBeam = 0.05*sqrt(random_number.gen());
-      double thetaBeam = random_number.gen();
-      x = rBeam*cos(2*PI*thetaBeam);
-      y = rBeam*sin(2*PI*thetaBeam);*/
-      // ================== Gaussian distrib beam ====================
-      double rBeam = 0.05*sqrt(-log(1-random_number.gen())/2);
-      double thetaBeam = random_number.gen();
-      x = rBeam*cos(2*PI*thetaBeam);
-      y = rBeam*sin(2*PI*thetaBeam);
+      if (input_beam_type == InputBeamType::kInifiniteNarrowBeam) {
+         // ============== Infinite Narrow beam =================
+         x = 0;y = 0;z = 0;
+         w = 1;
+      } else if (input_beam_type == InputBeamType::kUniformDistribBeam) {
+         // ================== Uniform distrib beam =====================
+         // with a radius of 0.5 mm (0.05 cm) and irradiance = 1 W/cm2
+         double beam_radius = 0.05;
+         double photon_pos_r = beam_radius*sqrt(random_number.gen());
+         double photon_pos_theta = random_number.gen();
+         x = photon_pos_r*cos(2 * PI*photon_pos_theta);
+         y = photon_pos_r*sin(2 * PI*photon_pos_theta);
+         z = 0;
+         w = 1.0 * PI*0.05*0.05 / kTotalNumPhoton; // Every photon has the same energy
+      } else if (input_beam_type == InputBeamType::kGaussianDistribBeam) {
+         // ================== Gaussian distrib beam ====================
+         // with an e-2 radius of 0.5 mm (0.05 cm) and total power of 7.85 mW
+         double beam_radius = 0.05;
+         double photon_pos_r = beam_radius*sqrt(-log(1 - random_number.gen()) / 2);
+         //double photon_pos_r = beam_radius*sqrt(-log(random_number.gen()) / 2);
+         double photon_pos_theta = random_number.gen();
+         x = photon_pos_r*cos(2 * PI*photon_pos_theta);
+         y = photon_pos_r*sin(2 * PI*photon_pos_theta);
+         z = 0;
+         w = 0.00785 / kTotalNumPhoton; // Every photon has the same energy
+      }
 
-      w = 1;
 
       //incident from outside to tissue
       //if(random_number.gen() < pow((tissue_medium.getN()-air_medium.getN())/(air_medium.getN()+tissue_medium.getN()), 2 ) ){
